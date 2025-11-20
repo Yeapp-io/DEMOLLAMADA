@@ -23,7 +23,7 @@ app.post("/call", async (req, res) => {
     const TOKEN = process.env.TOKEN;
 
     const url = `https://wv${WOLKVOX_SERVER}.wolkvox.com/api/v2/agentbox.php?agent_id=${AGENT_ID}&api=dial&customer_phone=${CUSTOMER_PHONE}`;
-
+    console.log("URL Wolkvox:", url);
     const response = await axios.post(url, null, {
       headers: {
         "wolkvox_server": WOLKVOX_SERVER,
