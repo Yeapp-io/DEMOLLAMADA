@@ -1,28 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Demo API</title>
+  <meta charset="UTF-8" />
+  <title>Llamar</title>
 </head>
 <body>
-  <button onclick="callApi()">Llamar API</button>
-
-  <pre id="result"></pre>
+  <button onclick="call()">Llamar</button>
 
   <script>
-    async function callApi() {
-      const resultBox = document.getElementById("result");
-      resultBox.textContent = "Cargando...";
-
-      try {
-        const resp = await fetch("https://tu-api.com/endpoint", {
-          method: "GET"
-        });
-        const data = await resp.json();
-        resultBox.textContent = JSON.stringify(data, null, 2);
-      } catch (err) {
-        resultBox.textContent = "Error: " + err;
-      }
+    async function call() {
+      const r = await fetch("http://localhost:3000/call", { method: "POST" });
+      const data = await r.json();
+      console.log(data);
+      alert("Respuesta recibida, revisa consola.");
     }
   </script>
 </body>
