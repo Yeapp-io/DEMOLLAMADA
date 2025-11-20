@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Demo API</title>
+</head>
+<body>
+  <button onclick="callApi()">Llamar API</button>
+
+  <pre id="result"></pre>
+
+  <script>
+    async function callApi() {
+      const resultBox = document.getElementById("result");
+      resultBox.textContent = "Cargando...";
+
+      try {
+        const resp = await fetch("https://tu-api.com/endpoint", {
+          method: "GET"
+        });
+        const data = await resp.json();
+        resultBox.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        resultBox.textContent = "Error: " + err;
+      }
+    }
+  </script>
+</body>
+</html>
