@@ -9,19 +9,18 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
-// Servir el index.html directamente
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
-});
+// Servir archivos estáticos
+app.use(express.static(path.join(__dirname, "public")));
 
 // Endpoint POST a Wolkvox
 app.post("/call", async (req, res) => {
   try {
-    const WOLKVOX_SERVER = "0100";
-    const AGENT_ID = "12964";
-    const CUSTOMER_PHONE = "9573143387562";
-    const TOKEN = "7b69645f6469737472697d2d3230323430393136313030303239";
+    const WOLKVOX_SERVER = process.env.WOLKVOX_SERVER;
+    const AGENT_ID = process.env.AGENT_ID;
+    const CUSTOMER_PHONE = process.env.CUSTOMER_PHONE;
+    const TOKEN = process.env.TOKEN;
 
     const url = `https://wv${WOLKVOX_SERVER}.wolkvox.com/api/v2/agentbox.php?agent_id=${AGENT_ID}&api=dial&customer_phone=${CUSTOMER_PHONE}`;
 
@@ -34,7 +33,6 @@ app.post("/call", async (req, res) => {
     });
 
     res.json({ ok: true, data: response.data });
-
   } catch (err) {
     res.status(400).json({
       ok: false,
@@ -44,5 +42,6 @@ app.post("/call", async (req, res) => {
   }
 });
 
-
-app.listen(3000, () => console.log("Servidor en puerto 3000"));
+// Puerto dinámico para Render
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
